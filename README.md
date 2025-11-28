@@ -40,3 +40,95 @@ int parseMinIOAddress(const std::string& sMinIOUrl, std::string &sEndpoint, std:
 
 ## httplib
 依赖于httplib，http server 监听
+
+## ModelFormat
+三维模型间的相互转换，其中
+* gltf -> tinygltf 不同版本的接口有一些差异
+* osg/osgb -> OpenSceneGraph
+
+### 3d tiles文件生成
+[gltf 2.0 (2022)](https://www.khronos.org/gltf/)
+
+[tinygltf](https://github.com/syoyo/tinygltf)
+
+### 3d tiles模型本地查看
+
+1. 安装[node.js](https://nodejs.org/en/download/)
+2. 安装http-server
+```sh
+npm install http-server -g
+```
+3. 在模型根文件夹下启动
+```sh
+http-server -a localhost -p 8003 --cors=http://localhost:8080/
+```
+4. 根目录
+```sh
+|--- root
+    |--- xxx.b3dm
+    |--- xxx.b3dm
+    |--- tileset.json
+    |--- index.html
+    |--- favicon.ico
+    |--- .....
+```
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>基础 3D 查看器</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cesium/1.92.0/Cesium.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/cesium/1.92.0/Widgets/widgets.css" rel="stylesheet">
+    <style>
+        #cesiumContainer { width: 100%; height: 100vh; }
+        body { margin: 0; font-family: Arial, sans-serif; }
+    </style>
+</head>
+<body>
+    <div id="cesiumContainer"></div>
+    <script>
+        console.log("初始化基础 Cesium 查看器...");
+        
+        // 最基本的初始化
+        const viewer = new Cesium.Viewer('cesiumContainer', {
+            terrainProvider: undefined, // 明确设置为 undefined
+            baseLayerPicker: false,
+            geocoder: false,
+            homeButton: false,
+            sceneModePicker: false,
+            navigationHelpButton: false,
+            animation: false,
+            timeline: false
+        });
+        
+        console.log("Viewer 创建成功");
+        
+        // 直接加载模型，不依赖 readyPromise
+        setTimeout(() => {
+            console.log("开始加载模型...");
+            try {
+                const tileset = viewer.scene.primitives.add(
+                    new Cesium.Cesium3DTileset({
+                        url: './tileset.json'
+                    })
+                );
+                
+                console.log("Tileset 已添加到场景");
+                
+                // 5秒后尝试缩放
+                setTimeout(() => {
+                    viewer.zoomTo(tileset).catch(e => {
+                        console.log("缩放失败，但模型可能已加载");
+                    });
+                }, 5000);
+                
+            } catch (e) {
+                console.error("加载模型失败:", e);
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
+```
