@@ -21,7 +21,7 @@ int main() {
     for (size_t i = 0; i < 10; ++i) {
         std::string sId = std::to_string(i);
 
-        pool.AddTrackableTask(sId, poolThreadFunc, sId, i);
+        pool.AddTrackableCancellableTask(sId, poolThreadFunc, sId, i);
     }
 
     int count = 10;
@@ -33,6 +33,10 @@ int main() {
         }
         std::this_thread::sleep_for(std::chrono::seconds{60});
         count--;
+
+        if (count == 9) {
+            pool.CancelTask(std::to_string(count));
+        }
     }
 
     return 0;
