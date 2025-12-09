@@ -2,10 +2,19 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.8.2)
 
 project(ThreadPool)
 
+
+find_path(HIREDIS_HEADER hiredis)
+find_library(HIREDIS_LIB hiredis)
+find_path(REDIS_PLUS_PLUS_HEADER sw)
+find_library(REDIS_PLUS_PLUS_LIB redis++)
+
+
 FILE(GLOB FILES_C "*.cpp" "*.cc")
 FILE(GLOB FILES_H "*.h" "*.hpp" "*.inl")
 
 include_directories(${PROJECT_NAME}
+    ${HIREDIS_HEADER}
+    ${REDIS_PLUS_PLUS_HEADER}
 )
 
 # Check C++20 support
@@ -30,4 +39,7 @@ add_executable(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME}
     pthread
+
+    ${REDIS_PLUS_PLUS_LIB}
+    ${HIREDIS_LIB}
 )

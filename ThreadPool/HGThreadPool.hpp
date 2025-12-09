@@ -19,6 +19,8 @@
 #include <unordered_map>
 #include <vector>
 
+#include "RedisManager.h"
+
 namespace HG
 {
 
@@ -561,6 +563,9 @@ public:
             char buffer[100];
             getTimestamp(buffer, 100);
             it->second.sTimestamp = std::string(buffer);
+
+            // update to redis
+            HG::RedisManager::getInstance()->set(task_id.c_str(), std::to_string(progress).c_str());
         }
     }
 

@@ -30,6 +30,8 @@ int main() {
             std::string sId = std::to_string(i);
             auto progress = pool.GetTaskProgress(sId);
             printf("%d : %d %s\n", i, progress.percentage, progress.status.c_str());
+
+            HG::RedisManager::getInstance()->get(sId.c_str());
         }
         std::this_thread::sleep_for(std::chrono::seconds{60});
         count--;
