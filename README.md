@@ -34,6 +34,8 @@ int parseMinIOAddress(const std::string& sMinIOUrl, std::string &sEndpoint, std:
     return EXIT_SUCCESS;
 }
 ```
+## ProgressUpdate
+根据sTaskId更新进度到redis上
 
 ## ThreadPool 
 带自定义更新进度的线程池
