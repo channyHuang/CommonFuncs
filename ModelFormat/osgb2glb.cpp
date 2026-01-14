@@ -16,9 +16,9 @@
 // #define STB_IMAGE_IMPLEMENTATION
 // #define STB_IMAGE_WRITE_IMPLEMENTATION
 // #define TINYGLTF_IMPLEMENTATION
-#include "tiny_gltf.h"
-#include "stb_image.h"
-#include "stb_image_write.h"
+#include "tinygltf/tiny_gltf.h"
+#include "tinygltf/stb_image.h"
+#include "tinygltf/stb_image_write.h"
 
 using namespace std;
 
@@ -26,7 +26,6 @@ using namespace std;
 			char buf[512];\
 			sprintf(buf,fmt,##__VA_ARGS__);\
 			printf("%s\n", buf);
-
 
 struct MeshInfo
 {
@@ -547,6 +546,8 @@ void write_osgGeometry(osg::Geometry* g, OsgBuildState* osgState)
     }
 }
 
+namespace HG {
+
 bool osgb2glb(const char* in, const char* out) {
     bool b_pbr_texture = true;
     MeshInfo mesh_info;
@@ -762,4 +763,6 @@ bool osgb2glb(const char* in, const char* out) {
     bool res = gltf.WriteGltfSceneToFile(&model, out, false, true, true, true);
 
     return res;
+}
+
 }

@@ -7,8 +7,8 @@
     #include <ogr_spatialref.h>
     #include <ogrsf_frmts.h>
 #else
-    #include <gdal/ogr_spatialref.h>
-    #include <gdal/ogrsf_frmts.h>
+    #include <ogr_spatialref.h>
+    #include <ogrsf_frmts.h>
 #endif
 
 #include "glm/glm.hpp"

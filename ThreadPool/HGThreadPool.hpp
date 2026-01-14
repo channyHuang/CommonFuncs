@@ -692,5 +692,5 @@ private:
     std::unordered_map<std::string, std::shared_ptr<CancellableTask>> cancellable_tasks_;
 };
 
-} // namespace Haige
+} // namespace HG
     

@@ -5,7 +5,7 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-namespace Haige {
+namespace HG {
     bool glb2fbx(const std::string& sInputFile) {
         const aiScene* pScene = aiImportFile(sInputFile.c_str(), 0);
         if (pScene == nullptr) {
