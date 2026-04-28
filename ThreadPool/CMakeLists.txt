@@ -2,19 +2,19 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.8.2)
 
 project(ThreadPool)
 
-
 find_path(HIREDIS_HEADER hiredis)
 find_library(HIREDIS_LIB hiredis)
 find_path(REDIS_PLUS_PLUS_HEADER sw)
 find_library(REDIS_PLUS_PLUS_LIB redis++)
 
-
 FILE(GLOB FILES_C "*.cpp" "*.cc")
 FILE(GLOB FILES_H "*.h" "*.hpp" "*.inl")
+FILE(GLOB FILE_JSON ${CMAKE_CURRENT_SOURCE_DIR}/../Includes/simdjson.cpp)
 
 include_directories(${PROJECT_NAME}
     ${HIREDIS_HEADER}
     ${REDIS_PLUS_PLUS_HEADER}
+    ${CMAKE_CURRENT_SOURCE_DIR}/../Includes
 )
 
 # Check C++20 support
@@ -33,8 +33,8 @@ link_directories(${PROJECT_NAME}
 
 add_executable(${PROJECT_NAME}
     ${FILES_C}
-    ${FILES_CC}
     ${FILES_H}
+    ${FILE_JSON}
 )
 
 target_link_libraries(${PROJECT_NAME}

@@ -2,7 +2,7 @@
 common functions such as multi-thread task, logging, etc...
 
 ## MinIOManager
-依赖于minio-cpp，但minio-cpp直接使用CMake编译不通过，有很多依赖包无法直接apt install安装，需要vcpkg。而vcpkg的路径又需要特别指定。故CMakeLists.txt头有几句路径设置
+依赖于minio-cpp，但minio-cpp直接使用CMake编译不通过，有很多依赖包无法直接apt install安装，需要vcpkg `$ vcpkg install minio-cpp`。而vcpkg的路径又需要特别指定。故CMakeLists.txt头有几句路径设置
 ```
 set(CMAKE_TOOLCHAIN_FILE "/home/channy/Documents/thirdlibs/vcpkg/scripts/buildsystems/vcpkg.cmake")
 set(CMAKE_PREFIX_PATH "/home/channy/Documents/thirdlibs/vcpkg/installed/x64-linux;${CMAKE_PREFIX_PATH}")
@@ -34,14 +34,18 @@ int parseMinIOAddress(const std::string& sMinIOUrl, std::string &sEndpoint, std:
     return EXIT_SUCCESS;
 }
 ```
-## ProgressUpdate
-根据sTaskId更新进度到redis上
+## JsonManager
+json读写。使用nlohman::json虽然方便快捷，但速度一般，对于追求极致速度的项目来说不太适用，故采用simdjson进行读解析，rapidjson进行写json
+// simdjson: fastest but only parse; REPIDJSON faster; nlohman::json normal but easy use
 
 ## ThreadPool 
 带自定义更新进度的线程池
 
 ## httplib
 依赖于httplib，http server 监听
+
+## WriteRawGLB
+使用[tinygltf](https://github.com/syoyo/tinygltf)写glb文件用于3dtiles生成。
 
 ## ModelFormat
 三维模型间的相互转换，其中
@@ -50,8 +54,6 @@ int parseMinIOAddress(const std::string& sMinIOUrl, std::string &sEndpoint, std:
 
 ### 3d tiles文件生成
 [gltf 2.0 (2022)](https://www.khronos.org/gltf/)
-
-[tinygltf](https://github.com/syoyo/tinygltf)
 
 ### 3d tiles模型本地查看
 

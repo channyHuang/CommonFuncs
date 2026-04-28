@@ -12,6 +12,7 @@ FILE(GLOB FILES_C "*.cpp" "*.cc")
 FILE(GLOB FILES_H "*.h" "*.hpp" "*.inl")
 
 include_directories(${PROJECT_NAME}
+    ${CMAKE_CURRENT_SOURCE_DIR}/../Includes
 )
 
 # Check C++20 support
@@ -30,7 +31,6 @@ link_directories(${PROJECT_NAME}
 
 add_executable(${PROJECT_NAME}
     ${FILES_C}
-    ${FILES_CC}
     ${FILES_H}
 )
 
