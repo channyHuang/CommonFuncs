@@ -1,0 +1,2 @@
+/usr/bin/ar qc libplyReader.a CMakeFiles/plyReader.dir/VertexData.cpp.o CMakeFiles/plyReader.dir/ply2glb.cpp.o CMakeFiles/plyReader.dir/ply2osgb.cpp.o CMakeFiles/plyReader.dir/plyfile.cpp.o
+/usr/bin/ranlib libplyReader.a

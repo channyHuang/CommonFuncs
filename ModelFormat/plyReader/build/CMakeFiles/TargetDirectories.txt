@@ -1,0 +1,3 @@
+/home/channy/Documents/projects/CommonFuncs/ModelFormat/plyReader/build/CMakeFiles/plyReader.dir
+/home/channy/Documents/projects/CommonFuncs/ModelFormat/plyReader/build/CMakeFiles/edit_cache.dir
+/home/channy/Documents/projects/CommonFuncs/ModelFormat/plyReader/build/CMakeFiles/rebuild_cache.dir

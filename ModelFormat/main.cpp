@@ -1,24 +1,41 @@
-#include <cstring>
-#include <string>
-#include <fstream>
 #include <iostream>
+#include <string>
+#include <vector>
+#include <filesystem>
+#include <cstring>
 
-#include "plySpecial/ply2glb.h"
-#include "osgb2glb.h"
+// #include "png2tiff.hpp"
+
+// int testGeoInfo() {
+//     Haige::GeoInfo geoInfo;
+//     std::vector<float> vData;
+//     Haige::PngToGeoTiffConverter cvt;
+//     cvt.convert("xx.png", "out.tif", geoInfo, vData);
+//     return 0;
+// }
+
+#include "B3DWManager.h"
 
 int main() {
-    if (0) {
-        std::string sPlyFile = "/home/channy/Documents/projects/HGReconstruct/build/results/20260114120044090/ply/scene_chunk_00.ply";
-        std::string sGlbFile = "./out.glb";
-        auto cPly2Glb = HG::ply::Ply2Glb();
-        bool bres = cPly2Glb.ply2glb(sPlyFile.c_str(), sGlbFile.c_str());
-    }
+    std::string sFolder = "/home/channy/Documents/projects/HaigeReconstruct/build/Scene/Data/Model/";
+    std::string sGlbFolder = "./Model/";
+    try {
+        if (!std::filesystem::exists(sGlbFolder)) {
+            std::filesystem::create_directory(sGlbFolder);
+        }
+        B3DMWriter man;
+        for (const auto& entry : std::filesystem::recursive_directory_iterator(sFolder)) {
+            if (std::filesystem::is_regular_file(entry.status())) {
+                const auto& path = entry.path();
+                std::string sExt = path.extension().string();
 
-    {
-        std::string sOsgbFile = "/home/channy/Documents/projects/HGReconstruct/build/results/20251224140000000/Data/scene_chunk_00.osgb";
-        std::string sGlbFile = "./out.glb";
-        HG::osgb2glb(sOsgbFile.c_str(), sGlbFile.c_str());
-    }
+                if (std::strcmp(sExt.c_str(), ".b3dm") != 0) continue;
+                std::string sFileNameWithoutExt = path.stem().string();
+                // printf("%s %s %s\n", path.c_str(), sExt.c_str(), sFileNameWithoutExt.c_str());
 
+                man.parseB3DM2GLB(path, sGlbFolder + "/" + sFileNameWithoutExt + ".glb");
+            }
+        }
+    } catch (...) {}
     return 0;
 }

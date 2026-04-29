@@ -7,20 +7,20 @@ find_package(OpenSceneGraph REQUIRED osg osgViewer osgUtil osgDB osgGA osgText)
 set(EIGEN_DIR "/usr/local/include/eigen3")
 find_package(Assimp REQUIRED)
 find_package(glm REQUIRED)
-find_package(GDAL CONFIG REQUIRED)
-add_subdirectory(plySpecial)
-add_subdirectory(meshoptimizer)
+find_package(GDAL REQUIRED)
+add_subdirectory(plyReader)
 
 FILE(GLOB FILES_C "*.cpp" "*.cc")
 FILE(GLOB FILES_H "*.h" "*.hpp" "*.inl")
+
+message(${GDAL_INCLUDE_DIR})
 
 include_directories(${PROJECT_NAME}
   ${EIGEN_DIR}
   ${ASSIMP_INCLUDE_DIRS}
     ${OpenSceneGraph_INCLUDE_DIRS}
-    ${GDAL_INCLUDE_DIRS}
+    ${GDAL_INCLUDE_DIR}
     ${GLM_INCLUDE_DIRS}
-  ${CMAKE_CURRENT_SOURCE_DIR}/meshoptimizer
 )
 
 # Check C++20 support
@@ -43,11 +43,12 @@ add_executable(${PROJECT_NAME}
 )
 
 target_link_libraries(${PROJECT_NAME}
+    gdal
     pthread
     ${ASSIMP_LIBRARIES}  
     ${OPENSCENEGRAPH_LIBRARIES}
     ${GLM_LIBRARIES}
-    meshoptimizer
-    gdal
-    plySpecial
+
+    Geographic
+    plyReader
 )
